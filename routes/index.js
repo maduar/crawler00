@@ -7,6 +7,7 @@ var Promise = require('bluebird');
 var config = require('./config');
 const verifyEmail = require('./util/myUtil').verifyEmail;
 const mailAPI = require('./nodemailer').mailAPI;
+const schedule = require('node-schedule');
 
 
 
@@ -63,6 +64,24 @@ router.get('/getCnblogsPages', function(req, res, next) {
             return res.send("error");
         }
     })
+});
+
+
+router.get('/getCron', function(req, res, next) {
+
+    let startTime = new Date(Date.now() + 5000);
+    let endTime = new Date(startTime.getTime() + 5000);
+    // var j = schedule.scheduleJob({ start: startTime, end: endTime, rule: '* * * * * *' }, function(){
+    var j = schedule.scheduleJob('* 10 8 * * *', function(){
+        console.log("send mail");
+        request
+            .get('http://115.159.70.195:3000/getCnblogsPages?email_url=maduar@163.com')
+            .on('error', function(err) {
+                console.log(err)
+            })
+    });
+
+    return res.send("set cron OK!");
 });
 
 function renderHtm(index, value) {

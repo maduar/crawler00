@@ -37,7 +37,7 @@ router.get('/getPages', function(req, res, next) {
 router.get('/getCnblogsPages', function(req, res, next) {
 
     const email_url = req.query.email_url;
-    if(!verifyEmail(email_url)) return res.send("邮箱地址出错");
+    if(!email_url || !verifyEmail(email_url)) return res.send("邮箱地址出错");
 
     request('http://www.cnblogs.com/', function (error, response, body) {
         if (!error && response.statusCode == 200) {

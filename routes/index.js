@@ -50,7 +50,7 @@ router.get('/getCnblogsPages', function(req, res, next) {
             result += `</ul>`;
             mailAPI.sendMail(config.mail.mailServerMe, {
                 to: email_url,
-                subject: 'test11',
+                subject: '博客园首页20篇文章',
                 text: "11",
                 html: result,
                 type: "mail",

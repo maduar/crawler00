@@ -72,7 +72,7 @@ router.get('/getCron', function(req, res, next) {
     let startTime = new Date(Date.now() + 5000);
     let endTime = new Date(startTime.getTime() + 5000);
     // var j = schedule.scheduleJob({ start: startTime, end: endTime, rule: '* * * * * *' }, function(){
-    var j = schedule.scheduleJob('* 10 8 * * *', function(){
+    var j = schedule.scheduleJob({hour: 23, minute: 1}, function(){
         console.log("send mail");
         request
             .get('http://115.159.70.195:3000/getCnblogsPages?email_url=maduar@163.com')
@@ -84,11 +84,57 @@ router.get('/getCron', function(req, res, next) {
     return res.send("set cron OK!");
 });
 
+
+// router.get('/getZhihuDailyHot', function(req, res, next) {
+//
+//     const email_url = req.query.email_url;
+//     if(!email_url || !verifyEmail(email_url)) return res.send("邮箱地址出错");
+//
+//     request('https://www.zhihu.com/explore', function (error, response, body) {
+//         if (!error && response.statusCode == 200) {
+//             // console.log(body) // Show the HTML for the Google homepage.
+//             const $ = cheerio.load(body);
+//             let result = `<ul>`;
+//             $('h2 .question_link').each((index, value) => {
+//                 result += renderHtm(index, value);
+//             });
+//             result += `</ul>`;
+//             mailAPI.sendMail(config.mail.mailServerMe, {
+//                 to: email_url,
+//                 subject: '博客园首页20篇文章',
+//                 text: "11",
+//                 html: result,
+//                 type: "mail",
+//                 typeMessage: "Me"
+//             }, function(err, info) {
+//                 if(err) return res.render('index', { title: 'error' });
+//                 return res.send("OK");
+//             });
+//         } else {
+//             return res.send("error");
+//         }
+//     })
+// });
+
+
 function renderHtm(index, value) {
     const tmp = Number(index) + 1;
     const title = value.children[0].data;
     const href = value.attribs.href;
     const result = `<li>${tmp}: <a href="${href}">${title}</a></li>`;
+    return result;
+}
+
+function renderZhiHuHtm(index, value) {
+    const tmp = Number(index) + 1;
+    const _class = value.children[1].children[0].attribs.class;
+    const href = value.children[1].children[0].attribs.href;
+    const _target = value.children[1].children[0].attribs.target;
+    const dataId = value.children[1].children[0].attribs.data-id;
+    const _data = value.children[1].children[0].attribs.data-za-element-name;
+    const title = value.children[1].children[0].childred[0].data;
+
+    const result = `<li>${tmp}: <a class="${_class}" target="${_target}" data-id="${dataId}" data-za-element-name="${_data}" href="${href}">${title}</a></li>`;
     return result;
 }
 

@@ -25,24 +25,10 @@ module.exports = {
         }
     },
 
-    kue: {
-        prefix: 'q',
-        redis: {
-            port: 6379,
-            host: "192.168.1.90",
-            db: 3,
-            auth: 'itomix'
-        }
-    },
-
-    redis: {
-        port: 6379,
-        host: '192.168.1.90',
-        db: 3,
-        auth_pass: 'itomix'
-    },
     url: {
         mail: 'http://localhost:8088/mail'
-    }
+    },
+
+    myEmail: 'maduar@163.com,493106537@qq.com'
 
 }

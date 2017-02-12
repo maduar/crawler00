@@ -22,9 +22,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+global.config = require('./routes/config');
+
 app.use('/', index);
 app.use('/getPages', index);
 app.use('/getCnblogsPages', index);
+app.use('/getZhihuDailyHot', index);
+
+
 app.use('/getCron', index);
 app.use('/users', users);
 

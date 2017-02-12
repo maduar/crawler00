@@ -85,36 +85,36 @@ router.get('/getCron', function(req, res, next) {
 });
 
 
-// router.get('/getZhihuDailyHot', function(req, res, next) {
-//
-//     const email_url = req.query.email_url;
-//     if(!email_url || !verifyEmail(email_url)) return res.send("邮箱地址出错");
-//
-//     request('https://www.zhihu.com/explore', function (error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             // console.log(body) // Show the HTML for the Google homepage.
-//             const $ = cheerio.load(body);
-//             let result = `<ul>`;
-//             $('h2 .question_link').each((index, value) => {
-//                 result += renderHtm(index, value);
-//             });
-//             result += `</ul>`;
-//             mailAPI.sendMail(config.mail.mailServerMe, {
-//                 to: email_url,
-//                 subject: '博客园首页20篇文章',
-//                 text: "11",
-//                 html: result,
-//                 type: "mail",
-//                 typeMessage: "Me"
-//             }, function(err, info) {
-//                 if(err) return res.render('index', { title: 'error' });
-//                 return res.send("OK");
-//             });
-//         } else {
-//             return res.send("error");
-//         }
-//     })
-// });
+router.get('/getZhihuDailyHot', function(req, res, next) {
+
+    const email_url = req.query.email_url;
+    if(!email_url || !verifyEmail(email_url)) return res.send("邮箱地址出错");
+
+    request('https://www.zhihu.com/explore', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            // console.log(body) // Show the HTML for the Google homepage.
+            const $ = cheerio.load(body);
+            let result = `<ul>`;
+            $('h2 .question_link').each((index, value) => {
+                result += renderZhiHuHtm(index, value);
+            });
+            result += `</ul>`;
+            mailAPI.sendMail(config.mail.mailServerMe, {
+                to: email_url,
+                subject: '博客园首页20篇文章',
+                text: "11",
+                html: result,
+                type: "mail",
+                typeMessage: "Me"
+            }, function(err, info) {
+                if(err) return res.render('index', { title: 'error' });
+                return res.send("OK");
+            });
+        } else {
+            return res.send("error");
+        }
+    })
+});
 
 
 function renderHtm(index, value) {
@@ -126,16 +126,22 @@ function renderHtm(index, value) {
 }
 
 function renderZhiHuHtm(index, value) {
+    const zhihu_url = "https://www.zhihu.com";
     const tmp = Number(index) + 1;
-    const _class = value.children[1].children[0].attribs.class;
-    const href = value.children[1].children[0].attribs.href;
-    const _target = value.children[1].children[0].attribs.target;
-    const dataId = value.children[1].children[0].attribs.data-id;
-    const _data = value.children[1].children[0].attribs.data-za-element-name;
-    const title = value.children[1].children[0].childred[0].data;
-
-    const result = `<li>${tmp}: <a class="${_class}" target="${_target}" data-id="${dataId}" data-za-element-name="${_data}" href="${href}">${title}</a></li>`;
+    const title = value.children[0].data;
+    const href = zhihu_url + value.attribs.href;
+    const result = `<li>${tmp}: <a href="${href}">${title}</a></li>`;
     return result;
+    // const tmp = Number(index) + 1;
+    // const _class = value.children[1].children[0].attribs.class;
+    // const href = zhihu_url + value.attribs.href;;
+    // // const _target = value.children[1].children[0].attribs.target;
+    // // const dataId = value.children[1].children[0].attribs.data-id;
+    // // const _data = value.children[1].children[0].attribs.data-za-element-name;
+    // const title = value.children[0].data;
+    //
+    // const result = `<li>${tmp}: <a class="${_class}" target="${_target}" data-id="${dataId}" data-za-element-name="${_data}" href="${href}">${title}</a></li>`;
+    // return result;
 }
 
 

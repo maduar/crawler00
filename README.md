@@ -7,3 +7,5 @@
 
 ####PS: 1: 爬知乎-- http://localhost:3000/getZhihuDailyHot?email_url=maduar@163.com
 ####      2：爬博客园-- http://localhost:3000/getCnblogsPages?email_url=maduar@163.com
+
+#### bug修复: 1. 定时器bug已修复，原因--服务器使用的是西八区时间，程序设置的是东八区时间！

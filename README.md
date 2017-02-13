@@ -1,7 +1,7 @@
 # 安装
 npm install
 # 运行
-node run start
+npm run start
 
 # 爬取
  1. 爬知乎

@@ -101,7 +101,7 @@ router.get('/getZhihuDailyHot', function(req, res, next) {
             result += `</ul>`;
             mailAPI.sendMail(config.mail.mailServerMe, {
                 to: email_url,
-                subject: '博客园首页20篇文章',
+                subject: '知乎每日热门文章',
                 text: "11",
                 html: result,
                 type: "mail",
@@ -132,16 +132,6 @@ function renderZhiHuHtm(index, value) {
     const href = zhihu_url + value.attribs.href;
     const result = `<li>${tmp}: <a href="${href}">${title}</a></li>`;
     return result;
-    // const tmp = Number(index) + 1;
-    // const _class = value.children[1].children[0].attribs.class;
-    // const href = zhihu_url + value.attribs.href;;
-    // // const _target = value.children[1].children[0].attribs.target;
-    // // const dataId = value.children[1].children[0].attribs.data-id;
-    // // const _data = value.children[1].children[0].attribs.data-za-element-name;
-    // const title = value.children[0].data;
-    //
-    // const result = `<li>${tmp}: <a class="${_class}" target="${_target}" data-id="${dataId}" data-za-element-name="${_data}" href="${href}">${title}</a></li>`;
-    // return result;
 }
 
 

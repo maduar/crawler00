@@ -1,7 +1,7 @@
 # 安装
 npm install
 # 运行
-node ./bin/www
+node run start
 
 ### 记录
 1. 爬取博客园首页的文章列表，并用邮件发送到指定邮箱。

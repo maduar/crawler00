@@ -4,15 +4,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
+global.config = require('./routes/config');
 
 var app = express();
+const log4js = require('log4js');
+const log4js_config = require("./routes/log4js");
+log4js_config.createFloder();
+log4js.configure(log4js_config);
+var LogFile = log4js.getLogger('loggerMSG');
+LogFile.setLevel('ALL');
+global.LogFile = LogFile;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+var index = require('./routes/index');
+var users = require('./routes/users');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -21,8 +29,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-global.config = require('./routes/config');
 
 app.use('/', index);
 app.use('/getPages', index);

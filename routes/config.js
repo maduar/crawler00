@@ -3,7 +3,7 @@
  */
 module.exports = {
 
-    app: 'queue-center-server',
+    app: 'crowler',
     log_path: 'logs',
     log_floder: {
         console: "console",

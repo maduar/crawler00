@@ -20,15 +20,14 @@ router.get('/', function(req, res, next) {
 router.get('/getPages', function(req, res, next) {
     request('http://www.cnblogs.com/', function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            // console.log(body) // Show the HTML for the Google homepage.
             const $ = cheerio.load(body);
-            // const result = $('.v-align-middle').html();
             const arrays = [];
             $('.titlelnk').each((index, value) => {
                 arrays.push({index: index, href: value.attribs.href, title: value.children[0].data});
             });
             res.render('index', { title: arrays });
         } else {
+            LogFile.error('error', error);
             return res.render('index', { title: 'error' });
         }
     })
@@ -38,11 +37,13 @@ router.get('/getPages', function(req, res, next) {
 router.get('/getCnblogsPages', function(req, res, next) {
 
     const email_url = req.query.email_url;
-    if(!email_url || !verifyEmail(email_url)) return res.send("邮箱地址出错");
+    if(!email_url || !verifyEmail(email_url)) {
+        LogFile.error(`{ errorInfo: '邮箱地址出错', errorAPI: '/getZhihuDailyHot', ip: '${ip}'}`);
+        return res.send("邮箱地址出错");
+    }
 
     request('http://www.cnblogs.com/', function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            // console.log(body) // Show the HTML for the Google homepage.
             const $ = cheerio.load(body);
             let result = `<ul>`;
             $('.titlelnk').each((index, value) => {
@@ -57,8 +58,12 @@ router.get('/getCnblogsPages', function(req, res, next) {
                 type: "mail",
                 typeMessage: "Me"
             }, function(err, info) {
-                if(err) return res.render('index', { title: 'error' });
-                return res.send("OK");
+                if(err)  {
+                    LogFile.error('error', error);
+                    return res.render('index', { title: 'error' });
+                } else {
+                    return res.send("OK");
+                }
             });
         } else {
             return res.send("error");
@@ -77,7 +82,7 @@ router.get('/getCron', function(req, res, next) {
         request
             .get('http://115.159.70.195:3000/getCnblogsPages?email_url=maduar@163.com')
             .on('error', function(err) {
-                console.log(err)
+                LogFile.error('error', err);
             })
     });
 
@@ -87,8 +92,13 @@ router.get('/getCron', function(req, res, next) {
 
 router.get('/getZhihuDailyHot', function(req, res, next) {
 
+    const ip = req.connection.remoteAddress || req.ip;
+
     const email_url = req.query.email_url;
-    if(!email_url || !verifyEmail(email_url)) return res.send("邮箱地址出错");
+    if(!email_url || !verifyEmail(email_url)) {
+        LogFile.error(`{ errorInfo: '邮箱地址出错', errorAPI: '/getZhihuDailyHot', ip: '${ip}'}`);
+        return res.send("邮箱地址出错");
+    }
 
     request('https://www.zhihu.com/explore', function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -107,10 +117,15 @@ router.get('/getZhihuDailyHot', function(req, res, next) {
                 type: "mail",
                 typeMessage: "Me"
             }, function(err, info) {
-                if(err) return res.render('index', { title: 'error' });
-                return res.send("OK");
+                if(err) {
+                    LogFile.error('error', err);
+                    return res.render('index', { title: 'error' });
+                } else {
+                    return res.send("OK");
+                }
             });
         } else {
+            LogFile.error('error', error);
             return res.send("error");
         }
     })
@@ -126,7 +141,7 @@ router.get('/getZhiHuCron', function(req, res, next) {
         request
             .get('http://115.159.70.195:3000/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com')
             .on('error', function(err) {
-                console.log(err)
+                LogFile.error(err)
             })
     });
 

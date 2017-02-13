@@ -19,6 +19,7 @@
     "node-schedule": "^1.2.0",
     "nodemailer": "^3.0.2",
     "request": "^2.79.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "uuid": "^3.0.1"
   }
 }

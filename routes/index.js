@@ -8,7 +8,7 @@ var config = require('./config');
 const verifyEmail = require('./util/myUtil').verifyEmail;
 const mailAPI = require('./nodemailer').mailAPI;
 const schedule = require('node-schedule');
-
+const uuid = require('uuid');
 
 
 /* GET home page. */
@@ -93,10 +93,13 @@ router.get('/getCron', function(req, res, next) {
 router.get('/getZhihuDailyHot', function(req, res, next) {
 
     const ip = req.connection.remoteAddress || req.ip;
+    const log_uuid = uuid.v1().replace(/[-]/g, '');
+    const pid = process.pid;
 
     const email_url = req.query.email_url;
     if(!email_url || !verifyEmail(email_url)) {
-        LogFile.error(`{ errorInfo: '邮箱地址出错', errorAPI: '/getZhihuDailyHot', ip: '${ip}'}`);
+        LogFile.error(`{ log_uuid: '${log_uuid}',errorInfo: '邮箱地址出错', errorAPI: '/getZhihuDailyHot', ip: '${ip}'
+                        pid: '${pid}'}`);
         return res.send("邮箱地址出错");
     }
 

@@ -77,7 +77,7 @@ router.get('/getCron', function(req, res, next) {
     let startTime = new Date(Date.now() + 5000);
     let endTime = new Date(startTime.getTime() + 5000);
     // var j = schedule.scheduleJob({ start: startTime, end: endTime, rule: '* * * * * *' }, function(){
-    var j = schedule.scheduleJob({hour: 8, minute: 10}, function(){
+    var j = schedule.scheduleJob({hour: 9, minute: 50}, function(){
         console.log("send mail");
         request
             .get('http://115.159.70.195:3000/getCnblogsPages?email_url=maduar@163.com')

@@ -147,7 +147,13 @@ router.get('/getZhiHuCron', function(req, res, next) {
     return sequelize.query(sqlStr)
         .then(data => {
 
+
+            LogFile.info("msyql get result: ", data);
+
             if (data && data[0].length > 0 && data[0][0].count === 1) {
+
+                LogFile.info("data is right ,  set cron !!");
+
                 const j = schedule.scheduleJob({hour: 8, minute: 11}, function() {
                     console.log( "send mail at : " + Date.parse( new Date() ) );
 
@@ -158,11 +164,11 @@ router.get('/getZhiHuCron', function(req, res, next) {
                         .on( 'error', function ( err ) {
                             LogFile.error( err )
                         } );
-
-                    return res.send("知乎定时爬虫设置成功!");
                 });
+
+                res.send("知乎定时爬虫设置成功!");
             } else {
-                return res.send('参数不存在!');
+                res.send('参数不存在!');
             }
 
         })

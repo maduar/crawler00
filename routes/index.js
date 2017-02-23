@@ -158,6 +158,8 @@ router.get('/getZhiHuCron', function(req, res, next) {
                         .on( 'error', function ( err ) {
                             LogFile.error( err )
                         } );
+
+                    return res.send("知乎定时爬虫设置成功!");
                 });
             } else {
                 return res.send('参数不存在!');

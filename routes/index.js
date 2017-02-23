@@ -1,14 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var cheerio = require('cheerio');
-var fs = require('fs');
-var request = require('request');
-var Promise = require('bluebird');
-var config = require('./config');
-const verifyEmail = require('./util/myUtil').verifyEmail;
-const mailAPI = require('./nodemailer').mailAPI;
-const schedule = require('node-schedule');
-const uuid = require('uuid');
+const express = require('express'),
+    router = express.Router(),
+    cheerio = require('cheerio'),
+    fs = require('fs'),
+    request = require('request'),
+    Promise = require('bluebird'),
+    config = require('./config'),
+    verifyEmail = require('./util/myUtil').verifyEmail,
+    mailAPI = require('./nodemailer').mailAPI,
+    schedule = require('node-schedule'),
+    uuid = require('uuid'),
+    _ = require('lodash');
+
 
 
 /* GET home page. */
@@ -136,20 +138,50 @@ router.get('/getZhihuDailyHot', function(req, res, next) {
 
 router.get('/getZhiHuCron', function(req, res, next) {
 
-    let startTime = new Date(Date.now() + 5000);
-    let endTime = new Date(startTime.getTime() + 5000);
-    // var j = schedule.scheduleJob({ start: startTime, end: endTime, rule: '* * * * * *' }, function(){
-    var j = schedule.scheduleJob({hour: 8, minute: 11}, function(){
-        console.log("send mail");
-        request
-            .get('http://127.0.0.1:3000/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com')
-            .on('error', function(err) {
-                LogFile.error(err)
-            })
-    });
+    const uuid = req.query.uuid;
 
-    return res.send("set cron OK!");
+    if (!uuid || uuid.length !== 32) return res.send('参数出错!');
+
+    const sqlStr = `SELECT count(*) AS count FROM secb_verity WHERE uuid = '${uuid}' AND status = 'ENABLE'`;
+
+    return sequelize.query(sqlStr)
+        .then(data => {
+
+            if (data && data[0].length > 0 && data[0][0].count === 1) {
+                const j = schedule.scheduleJob({hour: 8, minute: 11}, function() {
+                    console.log( "send mail at : " + Date.parse( new Date() ) );
+
+                    const url = `${config.qcloudUrl}/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com`;
+
+                    request
+                        .get( url )
+                        .on( 'error', function ( err ) {
+                            LogFile.error( err )
+                        } );
+                });
+            } else {
+                return res.send('参数不存在!');
+            }
+
+        })
+        .catch(err => {
+            LogFile.error('error', err);
+            res.send('error');
+        });
 });
+
+router.get('/test', function(req, res, next) {
+
+    return sequelize.query('select UUID()')
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            LogFile.error('error', err);
+            res.send('error');
+        })
+});
+
 
 function renderHtm(index, value) {
     const tmp = Number(index) + 1;

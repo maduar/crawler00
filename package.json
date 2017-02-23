@@ -14,12 +14,14 @@
     "debug": "~2.2.0",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
+    "lodash": "^4.17.4",
     "log4js": "^1.1.0",
     "mongoose": "^4.8.2",
     "morgan": "~1.7.0",
     "node-schedule": "^1.2.0",
     "nodemailer": "^3.0.2",
     "request": "^2.79.0",
+    "sequelize": "^3.30.2",
     "serve-favicon": "~2.3.0",
     "uuid": "^3.0.1"
   }

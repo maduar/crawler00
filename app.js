@@ -15,6 +15,9 @@ var LogFile = log4js.getLogger('loggerMSG');
 LogFile.setLevel('ALL');
 global.LogFile = LogFile;
 
+require('./routes/db/sequlize_init.js');
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

@@ -80,7 +80,7 @@ router.get('/getCron', function(req, res, next) {
     var j = schedule.scheduleJob({hour: 8, minute: 10}, function(){
         console.log("send mail");
         request
-            .get('http://115.159.70.195:3000/getCnblogsPages?email_url=maduar@163.com')
+            .get('http://http://127.0.0.1:3000/getCnblogsPages?email_url=maduar@163.com')
             .on('error', function(err) {
                 LogFile.error('error', err);
             })
@@ -142,7 +142,7 @@ router.get('/getZhiHuCron', function(req, res, next) {
     var j = schedule.scheduleJob({hour: 8, minute: 11}, function(){
         console.log("send mail");
         request
-            .get('http://115.159.70.195:3000/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com')
+            .get('http://127.0.0.1:3000/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com')
             .on('error', function(err) {
                 LogFile.error(err)
             })

@@ -147,15 +147,9 @@ router.get('/getZhiHuCron', function(req, res, next) {
     return sequelize.query(sqlStr)
         .then(data => {
 
-
-            LogFile.info("msyql get result: ", data);
-
             if (data && data[0].length > 0 && data[0][0].count === 1) {
 
-                LogFile.info("data is right ,  set cron !!");
-
                 const j = schedule.scheduleJob({hour: 8, minute: 11}, function() {
-                    console.log( "send mail at : " + Date.parse( new Date() ) );
 
                     const url = `${config.qcloudUrl}/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com`;
 

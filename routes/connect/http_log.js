@@ -8,15 +8,24 @@ const uuid = require('uuid');
 module.exports = {
     httpLog: function (  ) {
         return function ( req, res, next ) {
-            const ip = req.connection.remoteAddress || req.ip;
-            const log_uuid = uuid.v1().replace(/[-]/g, '');
-            const pid = process.pid;
-            const url = '';
 
-            LogFile.info(`{ log_uuid: '${log_uuid}',
-                        errorInfo: '邮箱地址出错', 
-                        errorAPI: '${req.url}', ip: '${ip}'
-                        pid: '${pid}'}`);
+
+            const reg = /:|f/g;
+
+            const ip = req.connection.remoteAddress
+                        ? req.connection.remoteAddress.replace(reg, '')
+                        : ( req.ip ? req.ip.replace(reg, '') : 0);
+
+            const data = {
+                ip: ip,
+                log_uuid: uuid.v1().replace(/[-]/g, ''),
+                pid: process.pid,
+                url: req.url,
+                method: req.method,
+                parameters: (req.method === 'POST') ? req.body : req.query
+            };
+
+            LogFile.info(JSON.stringify(data));
 
             next();
         }

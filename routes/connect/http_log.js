@@ -4,7 +4,6 @@
 
 const uuid = require('uuid');
 
-
 module.exports = {
     httpLog: function (  ) {
         return function ( req, res, next ) {
@@ -22,8 +21,24 @@ module.exports = {
                 pid: process.pid,
                 url: req.url,
                 method: req.method,
+                timestamp: Date.parse(new Date()),
                 parameters: (req.method === 'POST') ? req.body : req.query
             };
+
+            const sqlStr = `INSERT INTO secl_api VALUES
+                            (
+                                '${data.log_uuid}', '${data.ip}', '${data.url}', '${data.method}', 
+                                '${data.parameters}', '${data.timestamp}', '', '${config.app_id}', 'ACTIVE'
+                            )`;
+
+            sequelize.query(sqlStr)
+                .then(() => {
+                    LogFile.info('api记录成功');
+                })
+                .catch(err => {
+                    LogFile.info('log_api is wrong.', err);
+                });
+
 
             LogFile.info(JSON.stringify(data));
 

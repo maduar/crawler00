@@ -25,10 +25,12 @@ module.exports = {
                 parameters: (req.method === 'POST') ? req.body : req.query
             };
 
+            const parameters_sql = JSON.stringify(data.parameters);
+
             const sqlStr = `INSERT INTO secl_api VALUES
                             (
                                 '${data.log_uuid}', '${data.ip}', '${data.url}', '${data.method}', 
-                                '${data.parameters}', '${data.timestamp}', '', '${config.app_id}', 'ACTIVE'
+                                '${parameters_sql}', '${data.timestamp}', '', '${config.app_id}', 'ACTIVE'
                             )`;
 
             sequelize.query(sqlStr)

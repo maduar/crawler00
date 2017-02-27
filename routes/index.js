@@ -151,7 +151,7 @@ router.get('/getZhiHuCron', function(req, res, next) {
 
                 const j = schedule.scheduleJob({hour: 8, minute: 11}, function() {
 
-                    const url = `${config.qcloudUrl}/getZhihuDailyHot?email_url=maduar@163.com\,493106537@qq.com`;
+                    const url = `${config.qcloudUrl}${config.zhiHuCronEmails}`;
 
                     request
                         .get( url )

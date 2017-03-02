@@ -110,7 +110,7 @@ router.get('/getZhihuDailyHot', function(req, res, next) {
             // console.log(body) // Show the HTML for the Google homepage.
             const $ = cheerio.load(body);
             let result = `<ul>`;
-            $('h2 .question_link').each((index, value) => {
+            $('.explore-feed').each((index, value) => {
                 result += renderZhiHuHtm(index, value);
             });
             result += `</ul>`;
@@ -188,7 +188,7 @@ router.get('/test', function(req, res, next) {
 function renderHtm(index, value) {
     const tmp = Number(index) + 1;
     const title = value.children[0].data;
-    const href = value.attribs.href;
+    const href = value.children[1].children[0].attribs.href;
     const result = `<li>${tmp}: <a href="${href}">${title}</a></li>`;
     return result;
 }
@@ -196,9 +196,10 @@ function renderHtm(index, value) {
 function renderZhiHuHtm(index, value) {
     const zhihu_url = "https://www.zhihu.com";
     const tmp = Number(index) + 1;
-    const title = value.children[0].data;
+    const title = value.children[1].children[0].children[0].data;
     const href = zhihu_url + value.attribs.href;
-    const result = `<li>${tmp}: <a href="${href}">${title}</a></li>`;
+    const auther = value.children[3].children[15].attribs['data-author-name'];
+    const result = `<li>${tmp}: <a href="${href}">${title}</a>  作者: ${auther}</li>`;
     return result;
 }
 

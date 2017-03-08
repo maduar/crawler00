@@ -1,10 +1,128 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-   <%= title%>
-  </body>
+<head>
+  <title>多肉晨读</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <base href="/">
+
+  <link rel="stylesheet" href="javascripts/bootstrap.min.css">
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">多肉晨读</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <form class="navbar-form navbar-right">
+        <div class="form-group">
+          <input type="text" placeholder="Email" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Sign in</button>
+      </form>
+    </div><!--/.navbar-collapse -->
+  </div>
+</nav>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>诗歌, 经典 !</h1>
+    <img src="images/getqrcode.jpeg" alt="多肉晨读"  style="width: 200px;height: 200px;">
+    <p style="margin-top: 10px">或许你听过哥德、普希金、雪莱、海子, 却不曾接触过他们的作品。</p>
+    <p>多肉晨读，让你走近大师的作品，一起品读经典。</p>
+    <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>-->
+  </div>
+</div>
+
+
+<div class="container">
+
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-4">
+      <h2>知乎热门文章爬取</h2>
+      <p style="color: #00008b">功能介绍: 爬取知乎每日的热门文章, 发送到指定邮箱.</p>
+      <p style="color: #00008b">请在下方输入邮箱地址: </p>
+      <form class="form-inline" style="margin-top: 10px">
+        <div class="form-group  " style="margin-top: 10px">
+          <label class="control-label" for="zhihuEmail">邮箱&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" class="form-control" id="zhihuEmail" value="" placeholder="例如: aa@aa.com">
+        </div>
+      </form>
+      <p style="margin-top: 10px"><a class="btn btn-success" href="javascript:void 0" role="button" id="sendZhiHu">爬取</a></p>
+    </div>
+
+
+    <div class="col-md-4">
+      <h2>博客园首页文章爬取</h2>
+      <p style="color: #00008b">功能介绍: 爬取博客园首页展示的20篇文章, 发送到指定邮箱.</p>
+      <p style="color: #00008b">请在下方输入邮箱地址: </p>
+      <form class="form-inline" style="margin-top: 10px">
+        <div class="form-group  " style="margin-top: 10px">
+          <label class="control-label" for="cnBlogEmail">邮箱&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" class="form-control" id="cnBlogEmail" value="" placeholder="例如: aa@aa.com">
+        </div>
+      </form>
+      <p style="margin-top: 10px"><a class="btn btn-success" href="#" role="button" id="sendCnBlog">爬取</a></p>
+    </div>
+
+
+
+    <div class="col-md-4">
+      <h2>订阅号介绍</h2>
+
+
+
+      <form class="form-inline" style="margin-top: 10px">
+        <div class="form-group  " style="margin-top: 10px">
+          <label class="control-label" for="inputSuccess4">名称&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" class="form-control" id="inputSuccess4" value="多肉晨读" readonly
+                 aria-describedby="inputSuccess4Status">
+        </div>
+
+        <div class="form-group  " style="margin-top: 10px">
+          <label class="control-label" for="inputSuccess4">联系人</label>
+          <input type="text" class="form-control" id="inputSuccess4" value="庞先生" readonly
+                 aria-describedby="inputSuccess4Status">
+        </div>
+
+        <div class="form-group  " style="margin-top: 10px">
+          <label class="control-label" for="inputSuccess4">邮箱&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" class="form-control" id="inputSuccess4" value="maduar@163.com" readonly
+                 aria-describedby="inputSuccess4Status">
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  <footer>
+    <p>© 2017 你若盛开，清风自来～</p>
+  </footer>
+</div>
+</div>
+</div>
+
+
+
+<script src="javascripts/jquery.js"></script>
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/index.js"></script>
+
+</body>
 </html>

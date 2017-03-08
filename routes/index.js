@@ -64,7 +64,7 @@ router.get('/getCnblogsPages', function(req, res, next) {
                     LogFile.error('error', error);
                     return res.render('index', { title: 'error' });
                 } else {
-                    return res.send("OK");
+                    return res.send({status: 'success', code: "200", message: "发送成功", data: ""});
                 }
             });
         } else {
@@ -126,7 +126,7 @@ router.get('/getZhihuDailyHot', function(req, res, next) {
                     LogFile.error('error', err);
                     return res.render('index', { title: 'error' });
                 } else {
-                    return res.send("OK");
+                    return res.send({status: 'success', code: "200", message: "发送成功", data: ""});
                 }
             });
         } else {
@@ -188,7 +188,7 @@ router.get('/test', function(req, res, next) {
 function renderHtm(index, value) {
     const tmp = Number(index) + 1;
     const title = value.children[0].data;
-    const href = value.children[1].children[0].attribs.href;
+    const href = value.attribs.href || value.children[1].children[0].attribs.href;
     const result = `<li>${tmp}: <a href="${href}">${title}</a></li>`;
     return result;
 }

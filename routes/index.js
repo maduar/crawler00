@@ -9,7 +9,10 @@ const express = require('express'),
     mailAPI = require('./nodemailer').mailAPI,
     schedule = require('node-schedule'),
     uuid = require('uuid'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    Result = require('./util/result'),
+    moment = require('moment'),
+    weather = require('./util/weather');
 
 
 
@@ -172,17 +175,101 @@ router.get('/getZhiHuCron', function(req, res, next) {
         });
 });
 
-router.get('/test', function(req, res, next) {
+// router.get('/test', function(req, res, next) {
+//
+//     const name = '功能合并测试',
+//         time = moment().format('YYYY-MM-DD'),
+//         data = {
+//             name: name,
+//             time: time,
+//             rec_num: '15800637472'
+//         };
+//
+//     return mailAPI.sendMessage(data, (error, response) => {
+//         if (!error) {
+//             return new Result(Result.SUCCESS, '短信发送成功');
+//         } else {
+//             return new Result(Result.ERROR, '短信发送失败');
+//         }
+//     })
+// });
 
-    return sequelize.query('select UUID()')
-        .then(data => {
-            res.send(data);
+// router.get('/test', function(req, res, next) {
+//     const city = 'CN101180101';
+//     weather.getNowCityWeather(city, (err, reesponse, body) => {
+//
+//         const data = {
+//             reesponse: reesponse,
+//             body: body && JSON.parse(body)
+//         }
+//
+//         if (!err) return res.send(new Result(Result.SUCCESS, '查询成功', void 0, data));
+//         else return res.send(new Result(Result.ERROR, '查询失败', err || ''));
+//     })
+// });
+
+router.get('/test', function(req, res, next) {
+    const city = 'CN101180101',
+        city_zh = '郑州';
+
+    const key = req.query.key;
+
+    if (key !== config.key) return res.send('请输入正确的key');
+
+    const j = schedule.scheduleJob({hour: 15, minute: 54}, function() {
+        weather.getForecastCityWeather(city, (err, reesponse, body) => {
+
+            if (err) return res.send(new Result(Result.ERROR, '查询失败', err || ''));
+
+            const result = JSON.parse(body).HeWeather5[0].daily_forecast;
+            // const arr = ['205', '206', '207', '208', '209', '210', '211', '212', '213', '300', '301', '302',
+            //     '303', '304', '305', '306', '307', '308', '309', '310', '311', '312', '313', '400',
+            //     '401', '402', '403', '404', '405', '406', '407', '500', '501', '502', '503', '504',
+            //     '507', '508', '999'];
+
+            // if(_.includes(arr, result.cond.code_d) || _.includes(arr, result.cond.code_n)) {
+
+            // }
+
+            // const temp = ` 明天天气${result.cond.txt_n},${result.cond.txt_d}.最高气温${result.tmp.max}度,最低气温${result.tmp.min}. `;
+
+            // const options = {
+            //     txt_d: txt_d,
+            //     detail_d: detail_d,
+            //     txt_t: txt_t,
+            //     detail_t: detail_t,
+            //     city_zh: city_zh
+            // };
+
+            const options = {
+                name: '最后测试',
+                time: '好吧'
+            }
+
+            const data = {
+                sms_param: JSON.stringify(options),
+                sms_template_code: config.alidayu_sdk.sms_template_code.test,
+                rec_num: '15800637472'
+            };
+
+            // console.log(t);
+            // LogFile.info('t: ', t);
+
+            return mailAPI.sendMessage(data, (error, response) => {
+                if (!error) {
+                    console.log('OK');
+                } else {
+                    console.dir(error);
+                    console.log('NOT ok');
+                }
+            })
+
         })
-        .catch(err => {
-            LogFile.error('error', err);
-            res.send('error');
-        })
+    });
+    return res.send('天气预报提醒设置成功');
 });
+
+
 
 
 function renderHtm(index, value) {

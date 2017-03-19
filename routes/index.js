@@ -192,8 +192,8 @@ router.get('/test', function(req, res, next) {
 
             const options = {
                 name: `${config.people_info.girlfirend.second_name},郑州`,
-                weather1: `${result[1].cond.txt_d},${result[1].cond.txt_n}.${result[1].uv}-${result[1].vis}度.`,
-                weather2: `${result[2].cond.txt_d},${result[2].cond.txt_n}.${result[2].uv}-${result[2].vis}度`
+                weather1: `${result[0].cond.txt_d},${result[0].cond.txt_n}.${result[0].uv}-${result[0].vis}度.`,
+                weather2: `${result[1].cond.txt_d},${result[1].cond.txt_n}.${result[1].uv}-${result[1].vis}度`
             }
 
             const data = {

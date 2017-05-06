@@ -24,6 +24,7 @@
     "mysql": "^2.13.0",
     "node-schedule": "^1.2.0",
     "nodemailer": "^3.0.2",
+    "pg": "^6.1.5",
     "request": "^2.79.0",
     "sequelize": "^3.30.2",
     "serve-favicon": "~2.3.0",

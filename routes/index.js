@@ -176,7 +176,7 @@ router.get('/getZhiHuCron', function(req, res, next) {
 });
 
 router.get('/test', function(req, res, next) {
-    const city = 'CN101180101',
+    const city = 'Zhengzhou',
         city_zh = '郑州';
 
     const key = req.query.key;
@@ -192,14 +192,15 @@ router.get('/test', function(req, res, next) {
 
             const options = {
                 name: `${config.people_info.girlfirend.second_name},郑州`,
-                weather1: `${result[0].cond.txt_d},${result[0].cond.txt_n}.${result[0].uv}-${result[0].vis}度.`,
-                weather2: `${result[1].cond.txt_d},${result[1].cond.txt_n}.${result[1].uv}-${result[1].vis}度`
+                weather1: `${result[0].cond.txt_d},${result[0].cond.txt_n}.${result[0].tmp.min}-${result[0].tmp.max}度.`,
+                weather2: `${result[1].cond.txt_d},${result[1].cond.txt_n}.${result[1].tmp.min}-${result[1].tmp.max}度`
             }
 
             const data = {
                 sms_param: JSON.stringify(options),
                 sms_template_code: config.alidayu_sdk.sms_template_code.girlfirend,
                 rec_num: config.people_info.girlfirend.phone_number
+                // rec_num: '15800637472'
             };
 
 

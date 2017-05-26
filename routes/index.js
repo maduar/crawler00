@@ -231,9 +231,10 @@ function renderHtm(index, value) {
 
 function renderZhiHuHtm(index, value) {
     const zhihu_url = "https://www.zhihu.com";
+    // test
     const tmp = Number(index) + 1;
     const title = value.children[1].children[0].children[0].data;
-    const href = zhihu_url + value.attribs.href;
+    const href = zhihu_url + value.children[3].children[1].attribs.href;
     const auther = value.children[3].children[15].attribs['data-author-name'];
     const result = `<li>${tmp}: <a href="${href}">${title}</a>  作者: ${auther}</li>`;
     return result;

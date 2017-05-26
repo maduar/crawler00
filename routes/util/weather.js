@@ -18,7 +18,7 @@ module.exports = {
     getNowCityWeather: function (city, callback) {
 
         const options = {
-            url: `${weather.baseUrl}${weather.nowUrl}?city=${city}&key=${weather.key}`,
+            url: `https://api.seniverse.com/v3/weather/daily.json?location=${city}&key=rhcbfiurv70a8oxu&language=zh-Hans&unit=c`,
             headers: {
                 'User-Agent': 'request'
             }

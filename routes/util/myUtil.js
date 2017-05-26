@@ -2,7 +2,8 @@
  * Created by maduar on 10/02/2017.
  */
 
-const uuid = require('uuid');
+const uuid = require('uuid'),
+    path = require('path');
 
 
 //验证单个邮箱地址
@@ -51,7 +52,21 @@ module.exports = {
                         '${parameters.client_host}', '${parameters.exec_sql}', ${parameters.exec_duration} , '${parameters.duration_unit}', 
                         '${parameters.exec_result}')`;
 
-        return sequelize.query(sqlStr)
+        const createObj = {
+            id: parameters.id,
+            user_id: parameters.user_id,
+            exec_time: parameters.exec_time,
+            exec_api: parameters.exec_api,
+            client_host: parameters.client_host,
+            exec_sql: parameters.exec_sql,
+            exec_duration: parameters.exec_duration,
+            duration_unit: parameters.duration_unit,
+            exec_result: parameters.exec_result
+        }
+
+        const SeclSql = sequelize.import('../entities/secl_sql.js');
+        return SeclSql
+            .create(createObj)
             .then((data) => {
                 console.log();
             })

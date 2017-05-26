@@ -10,7 +10,7 @@ module.exports = function() {
     const config = global.config || {},
         config_path = config.path || {},
         ROUTER_PATH = config_path.ROUTERS_PATH || 'routers',
-        ENTITIES_PATH = path.resolve(process.cwd() + '/../routes/entities')
+        ENTITIES_PATH = config.url.entityUrl
         ;
 
     return {

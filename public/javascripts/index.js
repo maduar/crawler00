@@ -61,6 +61,12 @@ $(document).ready(function (  ) {
         })
     });
 
+    $('#weatherUl li').on('click', function (  ) {
+        $('#weatherUl li').removeClass();
+        var that = $(this);
+        that.addClass('active');
+    });
+
     function parseData(data) {
 
         var reg = /\{.+\}/;
